@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGlobalContext } from '../context';
 
+import { NavBar } from '../components/NavBar';
+
 export const Home = () => {
-  const { state, changeState } = useGlobalContext();
+  const { data, loading } = useGlobalContext().state;
+
   return (
-    <div>
-      <h1>{state}</h1>
-      <button
-        onClick={() => changeState('Hola Mundo')}
-        className='btn btn-primary'
-      >
-        Change Message
-      </button>
-    </div>
+    <>
+      <NavBar />
+      {loading && (
+        <div class='alert alert-primary' role='alert'>
+          Loading...
+        </div>
+      )}
+    </>
   );
 };

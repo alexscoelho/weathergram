@@ -5,13 +5,13 @@ export const Login = () => {
   const { state, changeState } = useGlobalContext();
   return (
     <div>
-      <h1>{state}</h1>
-      <button
+      <h1>hey!</h1>
+      {/* <button
         onClick={() => changeState('Hola Mundo')}
         className='btn btn-primary'
       >
         Change Message
-      </button>
+      </button> */}
     </div>
   );
 };
