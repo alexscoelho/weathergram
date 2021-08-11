@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useGlobalContext } from '../context';
 
 import { NavBar } from '../components/NavBar';
+import { WeatherCard } from '../components/WeatherCard';
 
 export const Home = () => {
   const { data, loading } = useGlobalContext().state;
@@ -14,6 +15,7 @@ export const Home = () => {
           Loading...
         </div>
       )}
+      {!!data && <WeatherCard {...data} />}
     </>
   );
 };
