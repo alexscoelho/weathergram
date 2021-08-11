@@ -8,6 +8,15 @@ const AppProvider = ({ children }) => {
     error: null,
   });
 
+  const [favorites, setFavorites] = useState([
+    {
+      description: 'cloud sky',
+      city: 'Caracas',
+      humidity: '70',
+      temperature: '70',
+    },
+  ]);
+
   const fetchWeatherData = (query) => {
     setState({ ...state, loading: true });
     const qs =
@@ -32,7 +41,7 @@ const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ state, fetchWeatherData }}>
+    <AppContext.Provider value={{ state, fetchWeatherData, favorites }}>
       {children}
     </AppContext.Provider>
   );

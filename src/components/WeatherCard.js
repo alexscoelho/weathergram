@@ -24,7 +24,7 @@ export const WeatherCard = ({ weather, name, main }) => {
         <h5 className='card-title text-center'>{description}</h5>
         <p className='card-text text-center'>{city}</p>
         <p className='card-text text-center'>Humidity {humidity}%</p>
-        <button className='btn btn-outline-light'>
+        <button className='btn btn-outline-dark'>
           <GrFavorite />
         </button>
       </div>
