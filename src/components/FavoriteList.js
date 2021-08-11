@@ -4,7 +4,7 @@ import { useGlobalContext } from '../context';
 import { AiOutlineDelete } from 'react-icons/ai';
 
 export const FavoriteList = () => {
-  const { favorites } = useGlobalContext();
+  const { favorites, handleFavorite } = useGlobalContext();
   return (
     <ul className='list-group list-group-numbered'>
       {favorites.map((favorite) => {
@@ -15,7 +15,10 @@ export const FavoriteList = () => {
               <div className='fw-bold'>{city}</div>
               {description} - {temperature}
             </div>
-            <button className='btn btn-outline-dark'>
+            <button
+              className='btn btn-outline-dark'
+              onClick={() => handleFavorite(favorite)}
+            >
               <AiOutlineDelete />
             </button>
           </li>

@@ -17,6 +17,20 @@ const AppProvider = ({ children }) => {
     },
   ]);
 
+  const handleFavorite = (favoriteObject) => {
+    const found = favorites.find(
+      (favorite) => favorite.id === favoriteObject.id
+    );
+    if (found) {
+      const newFavorites = favorites.filter(
+        (favorite) => favorite.id !== favoriteObject.id
+      );
+      setFavorites(newFavorites);
+    } else {
+      setFavorites([...favorites, favoriteObject]);
+    }
+  };
+
   const fetchWeatherData = (query) => {
     setState({ ...state, loading: true });
     const qs =
@@ -41,7 +55,9 @@ const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ state, fetchWeatherData, favorites }}>
+    <AppContext.Provider
+      value={{ state, fetchWeatherData, favorites, handleFavorite }}
+    >
       {children}
     </AppContext.Provider>
   );
