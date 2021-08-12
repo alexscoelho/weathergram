@@ -9,12 +9,12 @@ const AppProvider = ({ children }) => {
   });
 
   const [favorites, setFavorites] = useState([
-    {
-      description: 'cloud sky',
-      city: 'Caracas',
-      humidity: '70',
-      temperature: '70',
-    },
+    // {
+    //   description: 'cloud sky',
+    //   city: 'Caracas',
+    //   humidity: '70',
+    //   temperature: '70',
+    // },
   ]);
 
   const [alertOptions, setAlertOptions] = useState([
@@ -50,8 +50,31 @@ const AppProvider = ({ children }) => {
         return option;
       }
     });
-    console.log(newOptions);
     setAlertOptions(newOptions);
+  };
+
+  const compareData = (newData, favorite) => {
+    const field = alertOptions.find((option) => option.isActive).field;
+
+    console.log('newdata', newData[field]);
+    console.log('favorite', favorite[field]);
+  };
+
+  const findAlertMatch = () => {
+    favorites.map((favorite) => {
+      const query = {
+        lon: favorite.lon,
+        lat: favorite.lat,
+      };
+      fetchWeatherData(query).then((result) => {
+        const newData = {
+          description: result.weather[0].description,
+          temperature: result.main.temp,
+          humidity: result.main.humidity,
+        };
+        compareData(newData, favorite);
+      });
+    });
   };
 
   const handleFavorite = (favoriteObject) => {
@@ -76,7 +99,7 @@ const AppProvider = ({ children }) => {
             .map((key) => `${key}=${query[key]}`)
             .join('&')
         : '';
-    fetch(
+    return fetch(
       `${process.env.REACT_APP_API_URL}/weather${query ? '?' + qs : ''}&appid=${
         process.env.REACT_APP_API_KEY
       }`
@@ -88,6 +111,7 @@ const AppProvider = ({ children }) => {
           error: null,
           data,
         });
+        return data;
       });
   };
 
@@ -100,6 +124,7 @@ const AppProvider = ({ children }) => {
         handleFavorite,
         alertOptions,
         handleAlert,
+        findAlertMatch,
       }}
     >
       {children}

@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import { useGlobalContext } from '../context';
+import { WeatherAlertBadge } from './WeatherAlertBadge';
 
 export const WeatherAlertForm = () => {
-  const { alertOptions, handleAlert } = useGlobalContext();
+  const { alertOptions, handleAlert, findAlertMatch } = useGlobalContext();
   const [selected, setSelected] = useState('');
   const alert = alertOptions.find((option) => option.isActive);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleAlert(selected);
+    findAlertMatch();
+  };
+
   return (
     <>
-      <form>
+      <h2>Weather Alert</h2>
+      <form onSubmit={handleSubmit}>
         <div className='d-flex mb-2'>
           <select
             className='form-control'
@@ -20,20 +29,13 @@ export const WeatherAlertForm = () => {
           </select>
           <button
             className='btn btn-outline-success my-2 my-sm-0 ml-2'
-            type='button'
-            onClick={() => handleAlert(selected)}
+            type='submit'
           >
             Create
           </button>
         </div>
       </form>
-      <span
-        class={`btn btn-${
-          alert.field === '' ? 'primary' : 'danger'
-        } btn-lg btn-block mb-2`}
-      >
-        {alert.field === '' ? 'No Alert selected' : alert.value}
-      </span>
+      <WeatherAlertBadge alert={alert} />
     </>
   );
 };
