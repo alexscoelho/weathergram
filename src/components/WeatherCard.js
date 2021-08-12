@@ -4,11 +4,12 @@ import { useGlobalContext } from '../context';
 import { FiSun } from 'react-icons/fi';
 import { GrFavorite } from 'react-icons/gr';
 
-export const WeatherCard = ({ weather, name, main, coord, id }) => {
+export const WeatherCard = ({ weather, name, main, coord, id, cacheKey }) => {
   const { handleFavorite } = useGlobalContext();
   const weatherData = () => {
     return {
       id: id,
+      cacheKey: cacheKey,
       description: weather[0].description,
       city: name,
       humidity: main.humidity,

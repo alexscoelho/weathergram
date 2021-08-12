@@ -9,13 +9,19 @@ const AppProvider = ({ children }) => {
   });
 
   const [favorites, setFavorites] = useState([
-    // {
-    //   description: 'cloud sky',
-    //   city: 'Caracas',
-    //   humidity: '70',
-    //   temperature: '70',
-    // },
+    {
+      description: 'sunny',
+      city: 'Caracas',
+      humidity: '70',
+      temperature: '70',
+      cacheKey: { q: 'caracas' },
+    },
   ]);
+
+  const [alertModal, setAlertModal] = useState({
+    message: '',
+    isOpen: false,
+  });
 
   const [alertOptions, setAlertOptions] = useState([
     {
@@ -53,26 +59,37 @@ const AppProvider = ({ children }) => {
     setAlertOptions(newOptions);
   };
 
-  const compareData = (newData, favorite) => {
+  const hasUpdated = (newData, favorite) => {
     const field = alertOptions.find((option) => option.isActive).field;
-
-    console.log('newdata', newData[field]);
-    console.log('favorite', favorite[field]);
+    return newData[field] !== favorite[field];
   };
 
   const findAlertMatch = () => {
+    const field = alertOptions.find((option) => option.isActive).field;
     favorites.map((favorite) => {
-      const query = {
-        lon: favorite.lon,
-        lat: favorite.lat,
-      };
-      fetchWeatherData(query).then((result) => {
+      fetchWeatherData(favorite.cacheKey).then((result) => {
         const newData = {
           description: result.weather[0].description,
           temperature: result.main.temp,
           humidity: result.main.humidity,
         };
-        compareData(newData, favorite);
+        if (hasUpdated(newData, favorite)) {
+          favorite[field] = newData[field];
+          setAlertModal({
+            message: `${favorite.city} has new updates`,
+            isOpen: true,
+          });
+          setFavorites(
+            favorites.map((fav) => {
+              if (fav.id === favorite.id) {
+                favorite[field] = newData[field];
+                return favorite;
+              } else {
+                return favorite;
+              }
+            })
+          );
+        }
       });
     });
   };
@@ -106,6 +123,7 @@ const AppProvider = ({ children }) => {
     )
       .then((resp) => resp.json())
       .then((data) => {
+        data.cacheKey = query;
         setState({
           loading: false,
           error: null,
@@ -125,6 +143,8 @@ const AppProvider = ({ children }) => {
         alertOptions,
         handleAlert,
         findAlertMatch,
+        setAlertModal,
+        alertModal,
       }}
     >
       {children}
