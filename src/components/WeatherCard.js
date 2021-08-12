@@ -22,8 +22,8 @@ export const WeatherCard = ({ weather, name, main, coord, id, cacheKey }) => {
   const { description, city, humidity, temperature } = weatherData();
 
   return (
-    <div className='card' style={{ width: '18rem' }}>
-      <div className='d-flex justify-content-between'>
+    <div className='card alert-primary ' style={{ width: '20rem' }}>
+      <div className='d-flex justify-content-between p-4'>
         <FiSun size={70} />
         <h2 className='align-self-center'>{temperature}</h2>
       </div>
@@ -32,7 +32,7 @@ export const WeatherCard = ({ weather, name, main, coord, id, cacheKey }) => {
         <p className='card-text text-center'>{city}</p>
         <p className='card-text text-center'>Humidity {humidity}%</p>
         <button
-          className='btn btn-outline-dark'
+          className='btn btn-light'
           onClick={() => handleFavorite(weatherData())}
         >
           <GrFavorite />

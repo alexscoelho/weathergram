@@ -10,15 +10,18 @@ export const FavoriteList = () => {
       <h2>Favorites</h2>
       <ul className='list-group list-group-numbered'>
         {favorites.map((favorite) => {
-          const { description, city, temperature } = favorite;
+          const { description, city, temperature, id } = favorite;
           return (
-            <li className='list-group-item d-flex justify-content-between align-items-start'>
+            <li
+              key={id}
+              className='list-group-item d-flex justify-content-between align-items-start'
+            >
               <div className='ms-2 me-auto'>
                 <div className='fw-bold'>{city}</div>
                 {description} - {temperature}
               </div>
               <button
-                className='btn btn-outline-dark'
+                className='btn btn-light'
                 onClick={() => handleFavorite(favorite)}
               >
                 <AiOutlineDelete />

@@ -3,14 +3,14 @@ import { useGlobalContext } from '../context';
 import { WeatherAlertBadge } from './WeatherAlertBadge';
 
 export const WeatherAlertForm = () => {
-  const { alertOptions, handleAlert, findAlertMatch } = useGlobalContext();
+  const { alertOptions, handleAlert, loopAlert } = useGlobalContext();
   const [selected, setSelected] = useState('');
   const alert = alertOptions.find((option) => option.isActive);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleAlert(selected);
-    findAlertMatch();
+    loopAlert();
   };
 
   return (
@@ -27,10 +27,7 @@ export const WeatherAlertForm = () => {
               <option key={index}>{option.value}</option>
             ))}
           </select>
-          <button
-            className='btn btn-outline-success my-2 my-sm-0 ml-2'
-            type='submit'
-          >
+          <button className='btn btn-primary my-2 my-sm-0 ml-2' type='submit'>
             Create
           </button>
         </div>

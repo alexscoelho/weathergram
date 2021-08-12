@@ -19,7 +19,7 @@ export const Home = () => {
           Loading...
         </div>
       )}
-      <div className='container'>
+      <div className='container mt-4'>
         <div className='row'>
           <div className='col-sm'>{!!data && <WeatherCard {...data} />}</div>
           <div className='col-sm'>

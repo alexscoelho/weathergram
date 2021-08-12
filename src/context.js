@@ -8,15 +8,7 @@ const AppProvider = ({ children }) => {
     error: null,
   });
 
-  const [favorites, setFavorites] = useState([
-    {
-      description: 'sunny',
-      city: 'Caracas',
-      humidity: '70',
-      temperature: '70',
-      cacheKey: { q: 'caracas' },
-    },
-  ]);
+  const [favorites, setFavorites] = useState([]);
 
   const [alertModal, setAlertModal] = useState({
     message: '',
@@ -66,7 +58,7 @@ const AppProvider = ({ children }) => {
 
   const findAlertMatch = () => {
     const field = alertOptions.find((option) => option.isActive).field;
-    favorites.map((favorite) => {
+    favorites.forEach((favorite) => {
       fetchWeatherData(favorite.cacheKey).then((result) => {
         const newData = {
           description: result.weather[0].description,
@@ -76,7 +68,7 @@ const AppProvider = ({ children }) => {
         if (hasUpdated(newData, favorite)) {
           favorite[field] = newData[field];
           setAlertModal({
-            message: `${favorite.city} has new updates`,
+            message: `${favorite.city}'s weather ${field} has changed`,
             isOpen: true,
           });
           setFavorites(
@@ -92,6 +84,14 @@ const AppProvider = ({ children }) => {
         }
       });
     });
+  };
+
+  const loopAlert = () => {
+    const interval = setInterval(() => {
+      findAlertMatch();
+    }, 10000);
+
+    return () => clearInterval(interval);
   };
 
   const handleFavorite = (favoriteObject) => {
@@ -145,6 +145,7 @@ const AppProvider = ({ children }) => {
         findAlertMatch,
         setAlertModal,
         alertModal,
+        loopAlert,
       }}
     >
       {children}

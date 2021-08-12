@@ -1,4 +1,6 @@
 import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 import { useGlobalContext } from '../context';
 
@@ -7,35 +9,24 @@ export const WeatherAlertModal = () => {
   const { message, isOpen } = alertModal;
 
   return (
-    <div className='modal' tabindex='-1'>
-      <div className='modal-dialog'>
-        <div className='modal-content'>
-          <div className='modal-header'>
-            <h5 className='modal-title'>{message}</h5>
-            <button
-              type='button'
-              className='close'
-              data-dismiss='modal'
-              aria-label='Close'
-              onClick={() => setAlertModal({ message: '', isOpen: false })}
-            >
-              <span aria-hidden='true'>&times;</span>
-            </button>
-          </div>
-          <div className='modal-body'>
-            <p>Modal body text goes here.</p>
-          </div>
-          <div className='modal-footer'>
-            <button
-              type='button'
-              className='btn btn-secondary'
-              data-dismiss='modal'
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      <Modal
+        show={isOpen}
+        onHide={() => setAlertModal({ isOpen: false, message: '' })}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>New Weather Alert</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant='secondary'
+            onClick={() => setAlertModal({ isOpen: false, message: '' })}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };

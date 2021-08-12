@@ -4,8 +4,8 @@ import { SearchForm } from '../components/SearchForm';
 
 export const NavBar = () => {
   return (
-    <nav className='navbar navbar-light bg-light'>
-      <a className='navbar-brand'>WeatherGram</a>
+    <nav className='navbar navbar-light bg-primary'>
+      <a className='navbar-brand text-white logo'>WeatherGram</a>
       <SearchForm />
     </nav>
   );
