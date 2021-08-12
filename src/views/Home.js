@@ -4,6 +4,7 @@ import { useGlobalContext } from '../context';
 import { NavBar } from '../components/NavBar';
 import { WeatherCard } from '../components/WeatherCard';
 import { FavoriteList } from '../components/FavoriteList';
+import { WeatherAlertForm } from '../components/WeatherAlertForm';
 
 export const Home = () => {
   const { data, loading } = useGlobalContext().state;
@@ -20,6 +21,7 @@ export const Home = () => {
         <div className='row'>
           <div className='col-sm'>{!!data && <WeatherCard {...data} />}</div>
           <div className='col-sm'>
+            <WeatherAlertForm />
             <FavoriteList />
           </div>
         </div>
