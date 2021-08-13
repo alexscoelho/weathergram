@@ -10,6 +10,11 @@ export const FavoriteList = () => {
     <>
       <h2>Favorites</h2>
       <ul className='list-group list-group-numbered'>
+        {favorites.length == 0 && (
+          <div className='alert alert-secondary' role='alert'>
+            Favorite List is empty!!
+          </div>
+        )}
         {favorites.map((favorite) => {
           const { description, city, temperature, id } = favorite;
           return (

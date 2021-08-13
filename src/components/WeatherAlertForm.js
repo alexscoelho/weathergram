@@ -3,12 +3,14 @@ import { useGlobalContext } from '../context';
 import { WeatherAlertBadge } from './WeatherAlertBadge';
 
 export const WeatherAlertForm = () => {
-  const { alertOptions, handleAlert, loopAlert } = useGlobalContext();
+  const { alertOptions, handleAlert, loopAlert, favorites } =
+    useGlobalContext();
   const [selected, setSelected] = useState('');
   const alert = alertOptions.find((option) => option.isActive);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (favorites.length == 0) return;
     handleAlert(selected);
     loopAlert();
   };

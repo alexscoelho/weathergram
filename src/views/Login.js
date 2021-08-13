@@ -19,7 +19,7 @@ export const Login = () => {
     if (!username.trim() || !password.trim()) {
       setMessage('Enter a Valid Username or Password');
     } else if (username.length < 3 || password.length < 3) {
-      setMessage('Username and password must be at leas 3 long characters');
+      setMessage('Username and password are too short');
     } else {
       history.push('/home');
     }

@@ -38,6 +38,7 @@ const AppProvider = ({ children }) => {
     },
   ]);
 
+  // action when user selects an alert
   const handleAlert = (alert) => {
     const newOptions = alertOptions.map((option) => {
       if (option.value === alert) {
@@ -56,10 +57,11 @@ const AppProvider = ({ children }) => {
     return newData[field] !== favorite[field];
   };
 
+  // cache, determine if any change on favorites
   const findAlertMatch = () => {
     const field = alertOptions.find((option) => option.isActive).field;
     favorites.forEach((favorite) => {
-      fetchWeatherData(favorite.cacheKey).then((result) => {
+      getFetch(favorite.cacheKey).then((result) => {
         const newData = {
           description: result.weather[0].description,
           temperature: result.main.temp,
@@ -94,6 +96,7 @@ const AppProvider = ({ children }) => {
     return () => clearInterval(interval);
   };
 
+  // add/remove favorite
   const handleFavorite = (favoriteObject) => {
     const found = favorites.find(
       (favorite) => favorite.id === favoriteObject.id
@@ -108,8 +111,7 @@ const AppProvider = ({ children }) => {
     }
   };
 
-  const fetchWeatherData = (query) => {
-    setState({ ...state, loading: true });
+  const getFetch = (query) => {
     const qs =
       query !== undefined
         ? Object.keys(query)
@@ -120,17 +122,20 @@ const AppProvider = ({ children }) => {
       `${process.env.REACT_APP_API_URL}/weather${query ? '?' + qs : ''}&appid=${
         process.env.REACT_APP_API_KEY
       }`
-    )
-      .then((resp) => resp.json())
-      .then((data) => {
-        data.cacheKey = query;
-        setState({
-          loading: false,
-          error: null,
-          data,
-        });
-        return data;
+    ).then((resp) => resp.json());
+  };
+
+  const fetchWeatherData = (query) => {
+    setState({ ...state, loading: true });
+    getFetch(query).then((data) => {
+      data.cacheKey = query;
+      setState({
+        loading: false,
+        error: null,
+        data,
       });
+      return data;
+    });
   };
 
   return (
