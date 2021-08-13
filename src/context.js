@@ -8,7 +8,15 @@ const AppProvider = ({ children }) => {
     error: null,
   });
 
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState([
+    // {
+    //   cacheKey: { q: 'Doral' },
+    //   city: 'Doral',
+    //   description: 'sunny',
+    //   temperature: 310,
+    //   humidity: 79,
+    // },
+  ]);
 
   const [alertModal, setAlertModal] = useState({
     message: '',
@@ -122,19 +130,34 @@ const AppProvider = ({ children }) => {
       `${process.env.REACT_APP_API_URL}/weather${query ? '?' + qs : ''}&appid=${
         process.env.REACT_APP_API_KEY
       }`
-    ).then((resp) => resp.json());
+    )
+      .then((resp) => {
+        if (!resp.ok) {
+          throw Error('Something Went wrong');
+        } else {
+          return resp.json();
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const fetchWeatherData = (query) => {
     setState({ ...state, loading: true });
     getFetch(query).then((data) => {
-      data.cacheKey = query;
-      setState({
-        loading: false,
-        error: null,
-        data,
-      });
-      return data;
+      if (data) {
+        data.cacheKey = query;
+        setState({
+          loading: false,
+          error: null,
+          data,
+        });
+        return data;
+      } else {
+        setState({
+          loading: false,
+          error: 'Please enter a valid City or Zip',
+        });
+      }
     });
   };
 

@@ -8,7 +8,7 @@ import { WeatherAlertForm } from '../components/WeatherAlertForm';
 import { WeatherAlertModal } from '../components/WeatherAlertModal';
 
 export const Home = () => {
-  const { data, loading } = useGlobalContext().state;
+  const { data, loading, error } = useGlobalContext().state;
 
   return (
     <>
@@ -17,6 +17,11 @@ export const Home = () => {
       {loading && (
         <div class='alert alert-primary' role='alert'>
           Loading...
+        </div>
+      )}
+      {error && (
+        <div class='alert alert-danger' role='alert'>
+          {error}
         </div>
       )}
       <div className='container mt-4'>
