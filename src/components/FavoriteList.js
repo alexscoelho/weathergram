@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useGlobalContext } from '../context';
 import { AiOutlineDelete } from 'react-icons/ai';
+import { kelvinToFarenheit } from './WeatherCard';
 
 export const FavoriteList = () => {
   const { favorites, handleFavorite } = useGlobalContext();
@@ -18,7 +19,7 @@ export const FavoriteList = () => {
             >
               <div className='ms-2 me-auto'>
                 <div className='fw-bold'>{city}</div>
-                {description} - {temperature}
+                {description} - {kelvinToFarenheit(temperature)}
               </div>
               <button
                 className='btn btn-light'

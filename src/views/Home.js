@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useGlobalContext } from '../context';
 
 import { NavBar } from '../components/NavBar';
@@ -8,7 +8,7 @@ import { WeatherAlertForm } from '../components/WeatherAlertForm';
 import { WeatherAlertModal } from '../components/WeatherAlertModal';
 
 export const Home = () => {
-  const { data, loading, isOpen } = useGlobalContext().state;
+  const { data, loading } = useGlobalContext().state;
 
   return (
     <>
